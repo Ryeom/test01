@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="boards">
+
+
+	<select id="boardtest"
+		resultType="com.ryeom.demo.board.DTO.Boards">
+		select board_Number, board_Title, board_Date, user_Name
+		from board_table INNER JOIN user_table
+		ON
+		board_Writer = user_Number
+		order by board_Number desc;
+	</select>
+
+	<select id="loadMyPosts"
+		resultType="com.ryeom.demo.board.DTO.Boards">
+		select board_Number, board_Title, board_Date, user_Name
+		from board_table INNER JOIN user_table
+		ON
+		board_Writer = user_Number and
+		board_Writer = #{board_Writer}
+		order by board_Number desc;
+	</select>
+
+
+	<insert id="boardinsert">
+		insert into board_table (board_Title,
+		board_Writer,board_Date, board_Contents)
+		values(#{board_Title},#{board_Writer},Now(),#{board_Contents});
+	</insert>
+
+</mapper>
